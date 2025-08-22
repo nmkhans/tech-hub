@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { ShoppingCart, User, Menu, X, Search } from "lucide-react";
+import { User, Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -52,15 +52,11 @@ export default function Header() {
               href="/login"
               className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
             >
-              <User className="w-5 h-5" />
-              <span>Login</span>
+              <Button className={"bg-blue-600 text-white"}>
+                <User className="w-5 h-5" />
+                <span>Login</span>
+              </Button>
             </Link>
-            <Button size="sm" className="relative">
-              <ShoppingCart className="w-5 h-5" />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
-            </Button>
           </nav>
 
           {/* Mobile menu button */}
