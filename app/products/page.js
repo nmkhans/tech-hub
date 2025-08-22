@@ -28,7 +28,6 @@ export default function Products() {
     // Simulate fetching products
     const allProducts = [
       {
-        id: 1,
         name: "Premium Wireless Headphones",
         price: 199.99,
         originalPrice: 249.99,
@@ -38,10 +37,9 @@ export default function Products() {
         reviews: 234,
         category: "Electronics",
         description:
-          "High-quality wireless headphones with noise cancellation",
+          "High-quality wireless headphones with noise cancellation"
       },
       {
-        id: 2,
         name: "Smart Fitness Watch",
         price: 299.99,
         image:
@@ -50,10 +48,9 @@ export default function Products() {
         reviews: 189,
         category: "Wearables",
         description:
-          "Advanced fitness tracking with heart rate monitoring",
+          "Advanced fitness tracking with heart rate monitoring"
       },
       {
-        id: 3,
         name: "Professional Camera Lens",
         price: 599.99,
         originalPrice: 699.99,
@@ -63,10 +60,9 @@ export default function Products() {
         reviews: 156,
         category: "Photography",
         description:
-          "Professional-grade camera lens for stunning photography",
+          "Professional-grade camera lens for stunning photography"
       },
       {
-        id: 4,
         name: "Minimalist Laptop Stand",
         price: 79.99,
         image:
@@ -74,10 +70,9 @@ export default function Products() {
         rating: 4.7,
         reviews: 98,
         category: "Accessories",
-        description: "Ergonomic laptop stand for better posture",
+        description: "Ergonomic laptop stand for better posture"
       },
       {
-        id: 5,
         name: "Wireless Bluetooth Speaker",
         price: 129.99,
         image:
@@ -85,10 +80,9 @@ export default function Products() {
         rating: 4.5,
         reviews: 267,
         category: "Electronics",
-        description: "Portable speaker with amazing sound quality",
+        description: "Portable speaker with amazing sound quality"
       },
       {
-        id: 6,
         name: "Mechanical Gaming Keyboard",
         price: 149.99,
         originalPrice: 179.99,
@@ -97,8 +91,8 @@ export default function Products() {
         rating: 4.8,
         reviews: 143,
         category: "Electronics",
-        description: "RGB mechanical keyboard for gaming enthusiasts",
-      },
+        description: "RGB mechanical keyboard for gaming enthusiasts"
+      }
     ];
     setProducts(allProducts);
   }, []);
