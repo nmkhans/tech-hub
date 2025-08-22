@@ -6,7 +6,10 @@ import { Star } from "lucide-react";
 
 export default async function FeaturedProducts() {
   const res = await fetch(
-    `http://localhost:3000/api/products?limit=6`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?limit=6`,
+    {
+      cache: "no-store", 
+    }
   );
   const { data: products } = await res.json();
 

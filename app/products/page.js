@@ -5,7 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
 
 export default async function Products() {
-  const res = await fetch(`http://localhost:3000/api/products`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products`,
+    {
+      cache: "no-store",
+    }
+  );
   const { data: products } = await res.json();
 
   return (
