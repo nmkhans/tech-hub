@@ -1,101 +1,12 @@
-"use client";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Search,
-  Filter,
-  Star,
-  ShoppingCart,
-  Grid3X3,
-  List,
-} from "lucide-react";
+import { Star } from "lucide-react";
 
-export default function Products() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    // Simulate fetching products
-    const allProducts = [
-      {
-        name: "Premium Wireless Headphones",
-        price: 199.99,
-        originalPrice: 249.99,
-        image:
-          "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.8,
-        reviews: 234,
-        category: "Electronics",
-        description:
-          "High-quality wireless headphones with noise cancellation"
-      },
-      {
-        name: "Smart Fitness Watch",
-        price: 299.99,
-        image:
-          "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.6,
-        reviews: 189,
-        category: "Wearables",
-        description:
-          "Advanced fitness tracking with heart rate monitoring"
-      },
-      {
-        name: "Professional Camera Lens",
-        price: 599.99,
-        originalPrice: 699.99,
-        image:
-          "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.9,
-        reviews: 156,
-        category: "Photography",
-        description:
-          "Professional-grade camera lens for stunning photography"
-      },
-      {
-        name: "Minimalist Laptop Stand",
-        price: 79.99,
-        image:
-          "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.7,
-        reviews: 98,
-        category: "Accessories",
-        description: "Ergonomic laptop stand for better posture"
-      },
-      {
-        name: "Wireless Bluetooth Speaker",
-        price: 129.99,
-        image:
-          "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.5,
-        reviews: 267,
-        category: "Electronics",
-        description: "Portable speaker with amazing sound quality"
-      },
-      {
-        name: "Mechanical Gaming Keyboard",
-        price: 149.99,
-        originalPrice: 179.99,
-        image:
-          "https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.8,
-        reviews: 143,
-        category: "Electronics",
-        description: "RGB mechanical keyboard for gaming enthusiasts"
-      }
-    ];
-    setProducts(allProducts);
-  }, []);
+export default async function Products() {
+  const res = await fetch(`http://localhost:3000/api/products`);
+  const { data: products } = await res.json();
 
   return (
     <section>
@@ -121,7 +32,7 @@ export default function Products() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
             <Card
-              key={product.id}
+              key={product._id}
               className={`group hover:shadow-xl transition-all duration-300 border-0 shadow-md`}
             >
               <CardContent>
@@ -147,7 +58,7 @@ export default function Products() {
                       <div className="flex items-center space-x-1">
                         <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         <span className="text-sm font-medium">
-                          {product.rating}
+                          {product.rating.$numberDecimal}
                         </span>
                         <span className="text-xs text-gray-500">
                           ({product.reviews})
@@ -155,7 +66,7 @@ export default function Products() {
                       </div>
                     </div>
 
-                    <Link href={`/products/${product.id}`}>
+                    <Link href={`/products/${product._id}`}>
                       <h3 className="font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
                         {product.name}
                       </h3>
@@ -176,7 +87,7 @@ export default function Products() {
                           </span>
                         )}
                       </div>
-                      <Link href={`/products/${product.id}`}>
+                      <Link href={`/products/${product._id}`}>
                         <Button
                           size="sm"
                           className="group-hover:bg-blue-700 transition-colors"

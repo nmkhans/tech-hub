@@ -2,7 +2,9 @@ import connectDB from "@/lib/mongoDB";
 import Product from "@/models/Product";
 
 export async function GET(req, { params }) {
-  const { id } = params;
+  await connectDB();
+
+  const { id } = await params;
 
   const product = await Product.findOne({ _id: id });
 
@@ -30,8 +32,4 @@ export async function GET(req, { params }) {
       },
     }
   );
-
-  return new Response(id);
-
-  console.log(id);
 }

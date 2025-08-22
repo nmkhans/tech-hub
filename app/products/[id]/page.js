@@ -1,6 +1,3 @@
-"use client";
-
-import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,100 +15,13 @@ import {
   Shield,
   RotateCcw,
 } from "lucide-react";
+import ProductDetailImage from "@/components/ProductDetailImage";
 
-export default function ProductDetail({ params }) {
-  const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const { id } = use(params);
+export default async function ProductDetail({ params }) {
+  const { id } = await params;
 
-  useEffect(() => {
-    // Simulate fetching product by ID
-    const allProducts = [
-      {
-        id: 1,
-        name: "Premium Wireless Headphones",
-        price: 199.99,
-        originalPrice: 249.99,
-        image:
-          "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.8,
-        reviews: 234,
-        category: "Electronics",
-        description:
-          "High-quality wireless headphones with noise cancellation",
-      },
-      {
-        id: 2,
-        name: "Smart Fitness Watch",
-        price: 299.99,
-        image:
-          "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.6,
-        reviews: 189,
-        category: "Wearables",
-        description:
-          "Advanced fitness tracking with heart rate monitoring",
-      },
-      {
-        id: 3,
-        name: "Professional Camera Lens",
-        price: 599.99,
-        originalPrice: 699.99,
-        image:
-          "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.9,
-        reviews: 156,
-        category: "Photography",
-        description:
-          "Professional-grade camera lens for stunning photography",
-      },
-      {
-        id: 4,
-        name: "Minimalist Laptop Stand",
-        price: 79.99,
-        image:
-          "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.7,
-        reviews: 98,
-        category: "Accessories",
-        description: "Ergonomic laptop stand for better posture",
-      },
-      {
-        id: 5,
-        name: "Wireless Bluetooth Speaker",
-        price: 129.99,
-        image:
-          "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.5,
-        reviews: 267,
-        category: "Electronics",
-        description: "Portable speaker with amazing sound quality",
-      },
-      {
-        id: 6,
-        name: "Mechanical Gaming Keyboard",
-        price: 149.99,
-        originalPrice: 179.99,
-        image:
-          "https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg?auto=compress&cs=tinysrgb&w=500",
-        rating: 4.8,
-        reviews: 143,
-        category: "Electronics",
-        description: "RGB mechanical keyboard for gaming enthusiasts",
-      },
-    ];
-
-    const foundProduct = allProducts.find(
-      (p) => p.id === parseInt(id)
-    );
-    setProduct(foundProduct);
-  }, [id]);
-
-  const images = product
-    ? [product.image, product.image, product.image]
-    : [];
+  const res = await fetch(`http://localhost:3000/api/products/${id}`);
+  const { data: product } = await res.json();
 
   return (
     <section>
@@ -129,34 +39,10 @@ export default function ProductDetail({ params }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
-          <div className="space-y-4">
-            <div className="aspect-square bg-white rounded-lg overflow-hidden shadow-lg">
-              <img
-                src={images[selectedImage]}
-                alt={product?.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              {images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`aspect-square rounded-lg overflow-hidden ${
-                    selectedImage === index
-                      ? "ring-2 ring-blue-500"
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={`${product?.name} ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
+          <ProductDetailImage
+            image={product?.image}
+            name={product?.name}
+          />
 
           {/* Product Info */}
           <div className="space-y-6">
@@ -175,7 +61,8 @@ export default function ProductDetail({ params }) {
                     <Star
                       key={star}
                       className={`w-5 h-5 ${
-                        star <= Math.floor(product?.rating)
+                        star <=
+                        Math.floor(product?.rating?.$numberDecimal)
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-gray-300"
                       }`}
@@ -183,7 +70,7 @@ export default function ProductDetail({ params }) {
                   ))}
                 </div>
                 <span className="text-lg font-medium">
-                  {product?.rating}
+                  {product?.rating?.$numberDecimal}
                 </span>
                 <span className="text-gray-500">
                   ({product?.reviews} reviews)
@@ -227,64 +114,6 @@ export default function ProductDetail({ params }) {
                     </span>
                   </div>
                 )}
-              </div>
-            </div>
-
-            {/* Quantity and Add to Cart */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <span className="font-medium">Quantity:</span>
-                <div className="flex items-center border rounded-lg">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() =>
-                      setQuantity(Math.max(1, quantity - 1))
-                    }
-                    disabled={quantity <= 1}
-                  >
-                    <Minus className="w-4 h-4" />
-                  </Button>
-                  <span className="px-4 py-2 font-medium">
-                    {quantity}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() =>
-                      setQuantity(
-                        Math.min(product?.stockCount, quantity + 1)
-                      )
-                    }
-                    disabled={quantity >= product?.stockCount}
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-
-              <div className="flex space-x-4">
-                <Button
-                  disabled={!product?.inStock}
-                  className="flex-1 py-3 text-lg"
-                >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Add to Cart
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsWishlisted(!isWishlisted)}
-                  className="py-3"
-                >
-                  <Heart
-                    className={`w-5 h-5 ${
-                      isWishlisted ? "fill-red-500 text-red-500" : ""
-                    }`}
-                  />
-                </Button>
-                <Button variant="outline" className="py-3">
-                  <Share2 className="w-5 h-5" />
-                </Button>
               </div>
             </div>
 
