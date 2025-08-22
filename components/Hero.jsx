@@ -22,7 +22,7 @@ export default function Hero() {
             <Link href="/products">
               <Button
                 size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-10 text-lg h-12"
+                className="bg-white text-blue-600 hover:bg-blue-600 hover:text-white font-semibold px-10 text-lg h-12"
               >
                 Shop Now
                 <ArrowRight className="ml-2 w-5 h-5" />
