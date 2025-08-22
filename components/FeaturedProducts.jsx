@@ -130,7 +130,7 @@ export default function FeaturedProducts() {
                         size="sm"
                         className="group-hover:bg-blue-700 transition-colors"
                       >
-                        <ShoppingCart className="w-4 h-4" />
+                        View Detail
                       </Button>
                     </Link>
                   </div>
