@@ -4,9 +4,15 @@ import { useState } from "react";
 import { User, Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50">
@@ -42,21 +48,32 @@ export default function Header() {
             >
               Products
             </Link>
-            <Link
-              href="/add-product"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Add Product
-            </Link>
-            <Link
-              href="/login"
-              className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              <Button className={"bg-blue-600 text-white"}>
-                <User className="w-5 h-5" />
-                <span>Login</span>
+            {session && (
+              <Link
+                href="/add-product"
+                className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              >
+                Add Product
+              </Link>
+            )}
+            {!session ? (
+              <Button className="bg-blue-600 text-white" asChild>
+                <Link
+                  href="/login"
+                  className="flex items-center space-x-1 hover:text-blue-600 transition-colors "
+                >
+                  <User className="w-5 h-5" />
+                  <span>Login</span>
+                </Link>
               </Button>
-            </Link>
+            ) : (
+              <Button
+                className="bg-blue-600 text-white"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            )}
           </nav>
 
           {/* Mobile menu button */}
