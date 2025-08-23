@@ -8,7 +8,9 @@ export default async function FeaturedProducts() {
   const res = await fetch(
     `${process.env.NEXT_API_BASE_URL}/api/products?limit=6`,
     {
-      cache: "no-store", 
+      next: {
+        revalidate: 600,
+      },
     }
   );
   const { data: products } = await res.json();

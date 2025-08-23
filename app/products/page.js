@@ -8,7 +8,9 @@ export default async function Products() {
   const res = await fetch(
     `${process.env.NEXT_API_BASE_URL}/api/products`,
     {
-      cache: "no-store",
+      next: {
+        revalidate: 60,
+      },
     }
   );
   const { data: products } = await res.json();
